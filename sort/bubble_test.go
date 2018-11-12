@@ -21,7 +21,7 @@ func TestBubble(t *testing.T) {
 			if v < (len(rzt) - 1) {
 				vAfter := rzt[i+1]
 				if v > vAfter {
-					t.Error("选在排序，排序有误")
+					t.Error("冒泡排序，排序有误")
 				}
 			}
 		}
