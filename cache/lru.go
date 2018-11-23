@@ -31,6 +31,13 @@ func (l *LRUCache) Len() int {
 	return l.dlist.Len()
 }
 
+func (l *LRUCache) Has(k interface{}) bool {
+	if _, ok := l.cacheMap[k]; ok {
+		return true
+	}
+	return false
+}
+
 func (l *LRUCache) Set(k, v interface{}) error {
 	if l.dlist == nil {
 		return errors.New("LRUCache未初始化")
@@ -59,15 +66,15 @@ func (l *LRUCache) Set(k, v interface{}) error {
 	return nil
 }
 
-func (l *LRUCache) Get(k interface{}) (v interface{}, exist bool, error error) {
+func (l *LRUCache) Get(k interface{}) (v interface{}, error error) {
 	if l.dlist == nil {
-		return v, false, errors.New("LRUCache 未初始化")
+		return v, errors.New("LRUCache 未初始化")
 	}
 	if element, ok := l.cacheMap[k]; ok {
 		l.dlist.MoveToFront(element)
-		return element.Value.(*Node).Value, true, nil
+		return element.Value.(*Node).Value, nil
 	}
-	return v, false, nil
+	return v, nil
 }
 
 func (l *LRUCache) Remove(k interface{}) bool {
