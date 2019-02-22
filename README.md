@@ -50,7 +50,7 @@
 
 ##### 实现
 
-[实现代码](#https://github.com/BigKuCha/Algorithm/blob/master/sample/reservoir_sampling.go)
+[实现代码](https://github.com/BigKuCha/Algorithm/blob/master/sample/reservoir_sampling.go)
 
 
 
