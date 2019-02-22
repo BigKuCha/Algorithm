@@ -32,7 +32,7 @@ func Reservoir() {
 			reservoir[i] = string(l)
 		} else {
 			rand.Seed(time.Now().UnixNano())
-			d := rand.Intn(i)
+			d := rand.Intn(i) // 随机获取 rand(0, i) ,如果d落到了0-c之间，则替换抽样池中的数据
 			if d < c {
 				fmt.Printf("替换第%d个元素，放入第%d :%s \n", d, i, string(l))
 				reservoir[d] = string(l)
