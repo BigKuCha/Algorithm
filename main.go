@@ -1,14 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"github.com/bigkucha/Algorithm/sort"
-)
-
 func main() {
-	arr := []int{6, 1, 2, 7, 9, 3, 4, 5, 10, 8}
-	sort.QuickSort(arr, 0, len(arr)-1)
-	fmt.Println(arr)
 	//sample.Reservoir()
 	//ll := others.NewLinkList()
 	//fmt.Println("链表大小", ll.Size())
