@@ -47,12 +47,12 @@ func NewNode(ip string, port int, hostName string) *Node {
 
 }
 
-func NewHashring() *Hashring {
+func NewHashring(vNum int) *Hashring {
 	return &Hashring{
 		Servers:         make(map[string]bool),
 		Nodes:           make(map[uint32]Node),
 		Ring:            []uint32{},
-		VirturalNodeNum: 5,
+		VirturalNodeNum: vNum,
 	}
 }
 
@@ -87,12 +87,16 @@ func (h *Hashring) Get(key string) Node {
 	h.RLock()
 	defer h.RUnlock()
 	hashKey := Hash(key)
-	for _, hkey := range h.Ring {
-		if hkey > hashKey {
-			return h.Nodes[hkey]
-		}
+	ringLen := len(h.Ring)
+	// 查找大于等于hashKey的哈希值，如果未找到，此方法返回切片的长度
+	k := sort.Search(ringLen, func(i int) bool {
+		return h.Ring[i] >= hashKey
+	})
+	if k == ringLen {
+		k = 0
 	}
-	return h.Nodes[h.Ring[0]]
+	fmt.Println(hashKey, h.Ring[k])
+	return h.Nodes[h.Ring[k]]
 }
 
 // 移除节点
@@ -130,10 +134,11 @@ func test() {
 	node := NewNode("127.0.0.1", 80, "localhost")
 	node2 := NewNode("127.0.0.2", 80, "localhost2")
 	node3 := NewNode("127.0.0.3", 80, "localhost3")
-	hashring := NewHashring()
+	hashring := NewHashring(80)
 	hashring.AddNode(*node)
 	hashring.AddNode(*node2)
 	hashring.AddNode(*node3)
-	key := "8799123"
-	fmt.Println(hashring.Get(key))
+	k := "819238a"
+	fmt.Println(hashring.Ring)
+	fmt.Println(hashring.Get(k))
 }
