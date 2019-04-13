@@ -12,7 +12,7 @@ func TestSelect(t *testing.T) {
 		{[]int{11, 23, 78, 9, 82, 76, 90, 12}, []int{9, 11, 12, 23, 76, 78, 82, 90}},
 	}
 	for _, d := range data {
-		rzt := Bubble(d.in)
+		rzt := Select(d.in)
 		for i, v := range rzt {
 			if v != d.want[i] {
 				t.Error("选择排序，排序有误")
