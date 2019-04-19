@@ -1,7 +1,7 @@
 package common
 
 import (
-	"fmt"
+	"sync"
 	"time"
 )
 
@@ -15,32 +15,39 @@ var (
 	timeShift uint8 = nodeBits + stepBits // 时间戳向左偏移量
 	nodeShift uint8 = stepBits            // 节点id向左偏移量
 
-	lastTimestamp int64     // 上次的时间戳
-	sn            int64 = 0 // 序列号
 )
 
-func init() {
-	lastTimestamp = time.Now().UnixNano() / 1e6
+type SnowFlake struct {
+	machineID int64
+	lastTime  int64
+	sn        int64
+	sync.Mutex
 }
 
-func Snowflake(id int64) int64 {
-	// 节点编号范围0-1023
-	if id < 0 || id >= nodeMax {
-		return 0
+func NewSnowFlake(machineID int64) *SnowFlake {
+	if machineID < 0 || machineID > nodeMax {
+		return nil
 	}
-	timestamp := time.Now().UnixNano() / 1e6
-	if timestamp == lastTimestamp {
-		sn++
-		fmt.Println("时间相同了")
-		if sn > stepMax {
-			fmt.Println("超出最大序列号了+++")
-			for timestamp <= lastTimestamp {
-				timestamp = time.Now().UnixNano() / 1e6
+	return &SnowFlake{
+		machineID: machineID,
+		lastTime:  time.Now().UnixNano() / 1e6,
+	}
+}
+
+func (s *SnowFlake) GetID() int64 {
+	s.Lock()
+	defer s.Unlock()
+	now := time.Now().UnixNano() / 1e6
+	if now == s.lastTime {
+		s.sn++
+		if s.sn > stepMax {
+			for now <= s.lastTime {
+				now = time.Now().UnixNano() / 1e6
 			}
 		}
 	} else {
-		sn = 0
+		s.sn = 0
 	}
-	// 生成ID
-	return timestamp<<timeShift | id<<nodeShift | sn
+	s.lastTime = now
+	return now<<timeShift | s.machineID<<nodeShift | s.sn
 }

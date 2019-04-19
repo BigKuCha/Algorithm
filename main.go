@@ -3,21 +3,42 @@ package main
 import (
 	"fmt"
 	"github.com/bigkucha/Algorithm/common"
-	"os"
-	"time"
+	"sync"
 )
 
 func main() {
-	timeOut := time.After(time.Second)
-	for {
-		select {
-		case <-timeOut:
-			os.Exit(0)
-		default:
-			id := common.Snowflake(10)
+	//s := common.NewSnowFlake(3)
+	//to := time.After(time.Second)
+	//wg1 := sync.WaitGroup{}
+	//wg1.Add(1)
+	//go func() {
+	//	for {
+	//		select {
+	//		case <-to:
+	//			wg1.Done()
+	//			break
+	//		default:
+	//			id := s.GetID()
+	//			fmt.Println(id)
+	//		}
+	//	}
+	//}()
+	//
+	//wg1.Wait()
+	//return
+
+	snow1 := common.NewSnowFlake(1)
+
+	wg := sync.WaitGroup{}
+	for i := 0; i < 1000000; i++ {
+		wg.Add(1)
+		go func() {
+			id := snow1.GetID()
 			fmt.Println(id)
-		}
+			wg.Done()
+		}()
 	}
+	wg.Wait()
 
 	//sample.Reservoir()
 	//ll := others.NewLinkList()
