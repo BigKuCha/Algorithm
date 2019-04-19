@@ -18,9 +18,9 @@ var (
 )
 
 type SnowFlake struct {
-	machineID int64
-	lastTime  int64
-	sn        int64
+	nodeID   int64
+	lastTime int64
+	sn       int64
 	sync.Mutex
 }
 
@@ -29,8 +29,8 @@ func NewSnowFlake(machineID int64) *SnowFlake {
 		return nil
 	}
 	return &SnowFlake{
-		machineID: machineID,
-		lastTime:  time.Now().UnixNano() / 1e6,
+		nodeID:   machineID,
+		lastTime: time.Now().UnixNano() / 1e6,
 	}
 }
 
@@ -49,5 +49,5 @@ func (s *SnowFlake) GetID() int64 {
 		s.sn = 0
 	}
 	s.lastTime = now
-	return now<<timeShift | s.machineID<<nodeShift | s.sn
+	return now<<timeShift | s.nodeID<<nodeShift | s.sn
 }
