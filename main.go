@@ -6,13 +6,13 @@ import (
 )
 
 func main() {
-	//bm := common.NewBitmap()
-	bm := common.NewBitMap(1 << 32)
-	var v uint64 = 1
-	bm.SetBit(v, 1)
-	fmt.Println(bm.GetBit(v))
-	return
-
+	bloom := common.NewDefaultBloomFilter()
+	bloom.Add("1")
+	bloom.Add("2")
+	bloom.Add("3")
+	bloom.Add("4")
+	fmt.Println(bloom.Has("1"))
+	fmt.Println(bloom.Has("6"))
 	//bm := common.NewBitMap(0x01 << 44)
 	//_ = bm
 	//bm.SetBit(55, 1)
