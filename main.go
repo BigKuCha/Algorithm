@@ -3,25 +3,20 @@ package main
 import (
 	"fmt"
 	"github.com/bigkucha/Algorithm/common"
-	"os"
-	"time"
 )
 
 func main() {
-	snowFlake := common.NewSnowFlake(1)
-	timeout := time.After(time.Second)
-	for {
-		select {
-		case <-timeout:
-			fmt.Println("os exit")
-			os.Exit(0)
-		default:
-			id := snowFlake.GetID()
-			fmt.Println(id)
-		}
-	}
+	//bm := common.NewBitmap()
+	bm := common.NewBitMap(1 << 32)
+	var v uint64 = 1
+	bm.SetBit(v, 1)
+	fmt.Println(bm.GetBit(v))
 	return
 
+	//bm := common.NewBitMap(0x01 << 44)
+	//_ = bm
+	//bm.SetBit(55, 1)
+	//fmt.Println(bm.GetBit(55))
 	//s := common.NewSnowFlake(3)
 	//to := time.After(time.Second)
 	//wg1 := sync.WaitGroup{}
