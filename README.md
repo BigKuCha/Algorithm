@@ -23,6 +23,8 @@
 [常用算法](#常用算法)
 
 - [雪花算法snowflake](#雪花算法snowflake)
+- [BitMap](#BitMap)
+- [布隆过滤器](#布隆过滤器)
 
 [其他](#其他)
 - [单向链表](#单向链表)
@@ -146,6 +148,12 @@ Two queues算法类似于LRU-2，不同点在于2Q将LRU-2中的访问历史队�
 所以Twitter设计算法时设置了一个初始时间戳2006-03-21:20:50:14 GMT,所以此算法大约可以用到2075年
 2. 10位节点 总共可表示1024个节点
 3. 12位序列号 可以允许在统一毫秒内产生4096个id
+
+### BigMap
+[实现算法](https://github.com/BigKuCha/Algorithm/blob/master/common/bitmap.go)
+
+### 布隆过滤器
+[实现算法](https://github.com/BigKuCha/Algorithm/blob/master/common/bloom_filter.go)
 
 ## 其他
 
