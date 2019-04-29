@@ -39,14 +39,17 @@ func (b *BloomFilter) Add(k string) {
 }
 
 func (b BloomFilter) Has(k string) bool {
-	has := false
+	hasCount := 0
 	for _, f := range b.funcs {
 		pos := f.Hash(k)
 		if b.bm.GetBit(uint64(pos)) > 0 {
-			has = true
+			hasCount++
 		}
 	}
-	return has
+	if hasCount == len(b.funcs) {
+		return true
+	}
+	return false
 }
 
 type SimpleHash struct {
