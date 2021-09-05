@@ -1,8 +1,8 @@
 package main
 
 import (
+	"alg/common"
 	"fmt"
-	"github.com/bigkucha/Algorithm/common"
 )
 
 func main() {
